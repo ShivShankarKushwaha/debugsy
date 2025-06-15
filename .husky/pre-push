@@ -1,0 +1,19 @@
+valid_branch_regex="^(ci|chore|docs|ticket|add|feat|fix|pref|refactor|revert|style)\/[a-zA-Z0-9._-]+$"
+
+protected_branches='master|integration|develop'
+while read local_ref local_sha remote_ref remote_sha
+do
+  local_branch=${remote_ref#refs/heads/}
+
+  if echo "$remote_ref" | grep -E "^refs/heads/($protected_branches)\$" >/dev/null; then
+    echo "Push to $remote_ref is restricted!"
+    exit 1
+  fi
+
+  # branch name must be format "type/name"
+  if [[ ! $local_branch =~ $valid_branch_regex ]]
+  then
+    echo "Branch name is not in proper format"
+    exit 1
+  fi
+done
