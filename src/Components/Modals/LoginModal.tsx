@@ -54,9 +54,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 			const data = await response.json();
 			console.log('Login successful:', data);
 			toast.success('Login successful! Redirecting to dashboard...');
-			dispatch(loginSuccess(data.user)); // Dispatch login success action with user data
+			dispatch(loginSuccess(data.user));
 
-			// Check for redirect URL in query params
 			const searchParams = new URLSearchParams(window.location.search);
 			const redirectUrl = searchParams.get('from');
 

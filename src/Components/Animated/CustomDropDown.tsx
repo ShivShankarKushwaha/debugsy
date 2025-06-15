@@ -3,15 +3,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface CustomDropdownProps {
-	onSelect?: (role: string) => void; // Callback when a role is selected
-	initialRole?: string; // Initial selected role
-	options: string[]; // List of roles to display in the dropdown (required)
+	onSelect?: (role: string) => void;
+	initialRole?: string;
+	options: string[];
 }
 
 const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole = 'Developer', options }) => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedRole, setSelectedRole] = useState(initialRole);
-	const dropdownRef = useRef<HTMLDivElement>(null); // Ref to detect clicks outside
+	const dropdownRef = useRef<HTMLDivElement>(null);
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
@@ -28,9 +28,9 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 
 	const handleSelectRole = (role) => {
 		setSelectedRole(role);
-		setIsOpen(false); // Close dropdown after selection
+		setIsOpen(false);
 		if (onSelect) {
-			onSelect(role); // Call the provided onSelect callback
+			onSelect(role);
 		}
 	};
 
@@ -38,7 +38,6 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 		setIsOpen(!isOpen);
 	};
 
-	// Animation variants for the dropdown options container
 	const dropdownVariants = {
 		hidden: { opacity: 0, y: -10, scaleY: 0.8, transition: { duration: 0.2, ease: 'easeOut' } },
 		visible: { opacity: 1, y: 0, scaleY: 1, transition: { duration: 0.2, ease: 'easeOut' } }
@@ -46,7 +45,6 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 
 	return (
 		<div className="font-inter relative" ref={dropdownRef}>
-			{/* Dropdown Button */}
 			<button
 				type="button"
 				onClick={toggleDropdown}
@@ -55,7 +53,6 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 				aria-expanded={isOpen}
 			>
 				<span>{selectedRole}</span>
-				{/* Dropdown Arrow Icon */}
 				<motion.svg
 					className="ml-2 h-5 w-5 text-gray-300"
 					xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +70,6 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 				</motion.svg>
 			</button>
 
-			{/* Dropdown Options */}
 			<AnimatePresence>
 				{isOpen && (
 					<motion.ul

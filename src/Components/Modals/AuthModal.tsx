@@ -5,12 +5,14 @@ import { RootState } from '@/redux/store';
 import { closeModal } from '@/redux/slices/AuthModalSlice';
 import LoginModal from './LoginModal';
 import SignUpModal from './SignUpModal';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 
 export default function AuthModals() {
 	const { open, type } = useSelector((state: RootState) => state.authmodal);
 	const dispatch = useDispatch();
-	const handleClose = () => dispatch(closeModal());
+	const handleClose = useCallback(() => {
+		dispatch(closeModal());
+	}, [dispatch]);
 
 	useEffect(() => {
 		if (!open) return;
@@ -19,7 +21,7 @@ export default function AuthModals() {
 		};
 		window.addEventListener('keydown', onKeyDown);
 		return () => window.removeEventListener('keydown', onKeyDown);
-	}, [open, dispatch]);
+	}, [open, handleClose]);
 
 	return (
 		<>

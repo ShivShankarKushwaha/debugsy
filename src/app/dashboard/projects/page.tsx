@@ -1,18 +1,17 @@
+'use client';
+import { selectAllProjects } from '@/redux/slices/projectSlice';
+import { useSelector } from 'react-redux';
+
 const ProjectsPage = () => {
-	const projects = [
-		{ id: 1, name: 'Website Redesign', status: 'In Progress', progress: 75, startDate: '2025-01-10', endDate: '2025-03-31' },
-		{ id: 2, name: 'Mobile App Development', status: 'Completed', progress: 100, startDate: '2024-11-01', endDate: '2025-01-15' },
-		{ id: 3, name: 'Database Migration', status: 'To Do', progress: 0, startDate: '2025-02-01', endDate: '2025-02-28' },
-		{ id: 4, name: 'Marketing Campaign', status: 'In Review', progress: 90, startDate: '2025-01-20', endDate: '2025-02-10' }
-	];
+	const projects = useSelector(selectAllProjects);
 
 	return (
-		<div className="mt-36 min-h-screen p-2 lg:mt-auto lg:ml-40 lg:p-6">
+		<div className="mt-36 min-h-screen p-2 lg:mt-auto lg:ml-40 lg:max-w-[60vw] lg:p-6 2xl:max-w-full">
 			<h1 className="mb-8 text-3xl font-bold text-gray-200">Projects</h1>
 			<div className="rounded-xl bg-gray-800 p-6 shadow-sm">
 				<h2 className="font-inter mb-4 text-xl font-semibold text-gray-300">All Projects</h2>
 				<div className="max-w-[80vw] overflow-x-auto">
-					<table className="divide-y divide-gray-700">
+					<table className="w-full divide-y divide-gray-700">
 						<thead className="sticky top-0 z-10 bg-gray-900/50">
 							<tr>
 								<th className="font-inter rounded-tl-lg bg-gray-900/50 px-6 py-3 text-left text-xs font-medium tracking-wider text-gray-500 uppercase">

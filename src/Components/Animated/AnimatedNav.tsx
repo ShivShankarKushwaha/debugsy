@@ -19,7 +19,7 @@ const AnimatedNav: React.FC = () => {
 
 	const handleSignOut = async () => {
 		try {
-			await dispatch(logoutUser()).unwrap(); // Unwrap to catch errors
+			await dispatch(logoutUser()).unwrap();
 			if (pathName.includes('dashboard')) {
 				toast.success('Logged out successfully!');
 				await router.push('/');

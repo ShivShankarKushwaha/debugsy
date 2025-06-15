@@ -6,11 +6,13 @@ import { RootState } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Bounce, ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 export default function AppInitializer({ children }: { children: React.ReactNode }) {
 	const dispatch = useDispatch();
+	const router = useRouter();
 	const { open, type } = useSelector((state: RootState) => state.authmodal);
-	const [initialized, setInitialized] = useState(false); // Prevent initial loop
+	const [initialized, setInitialized] = useState(false);
 
 	useEffect(() => {
 		const fetchUser = async () => {
@@ -20,10 +22,11 @@ export default function AppInitializer({ children }: { children: React.ReactNode
 				dispatch(setInitialLoginStatus({ isLoggedIn: res.ok, user: res.ok ? user : null }));
 			} catch {
 				dispatch(setInitialLoginStatus({ isLoggedIn: false, user: null }));
+				router.push('/');
 			}
 		};
 		fetchUser();
-	}, [dispatch]);
+	}, [dispatch, router]);
 
 	useEffect(() => {
 		const handleHashChange = () => {

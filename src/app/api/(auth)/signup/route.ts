@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/dbConnect'; // Make sure you have a dbConnect utility
-import { User } from '@/models/User'; // Your Mongoose User model
+import dbConnect from '@/lib/dbConnect';
+import { User } from '@/models/User';
 import { SignUpPayload } from '@/types/Payload.dto';
 import { hashPassword } from '@/lib/authHelper';
 

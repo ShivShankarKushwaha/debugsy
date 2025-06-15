@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 	}
 
 	// Generate JWT token
-	const token = generateToken({ id: user._id, email: user.email });
+	const token = generateToken({ id: user._id, email: user.email, username: user.username, role: user.role });
 
 	// Set token in HttpOnly cookie
 	const response = NextResponse.json({ user: { id: user._id, email: user.email, username: user.username, role: user.role } }, { status: 200 });
