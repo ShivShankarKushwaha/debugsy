@@ -1,4 +1,4 @@
-# Debugsy - Bug/Task Tracker Interface
+# [Debugsy](https://debugsy.vercel.app/) - Bug/Task Tracker Interface
 
 ## 🚀 Project Overview
 
@@ -101,17 +101,42 @@ This project was built as a frontend development assessment focusing on:
 ## 📦 Deliverables
 
 - GitHub repo with source code
-- README (this file)
+- README
 - Screenshots of major features
-- Live demo (e.g., Vercel)
-- Optional: video walkthrough
+- Live demo ( Vercel)
+- [video walkthrough](https://drive.google.com/file/d/1-FzIyPjojA6WazoS20TKOKWEpjwAXO7O/view?usp=sharing)
 
 ---
 
-## 🔗 Demo
+## 🔗 [Demo](https://debugsy.vercel.app/)
 
-👉 [shivshankar.vercel.app](https://shivshankar.vercel.app)
+👉 portfolio: [shivshankar.vercel.app](https://shivshankar.vercel.app)
 
 ---
 
 © 2025 Shiv Shankar Kushwaha
+
+## 🖼️ Screenshots
+
+<table>
+    <tr>
+        <td><img src="./public/ss1.png" alt="Screenshot 1" /></td>
+        <td><img src="./public/ss2.png" alt="Screenshot 2" /></td>
+        <td><img src="./public/ss3.png" alt="Screenshot 3" /></td>
+    </tr>
+    <tr>
+        <td><img src="./public/ss4.png" alt="Screenshot 4" /></td>
+        <td><img src="./public/ss5.png" alt="Screenshot 5" /></td>
+        <td><img src="./public/ss6.png" alt="Screenshot 6" /></td>
+    </tr>
+    <tr>
+        <td><img src="./public/ss7.png" alt="Screenshot 7" /></td>
+        <td><img src="./public/ss8.png" alt="Screenshot 8" /></td>
+        <td><img src="./public/ss9.png" alt="Screenshot 9" /></td>
+    </tr>
+    <tr>
+        <td><img src="./public/ss10.png" alt="Screenshot 10" /></td>
+        <td></td>
+        <td></td>
+    </tr>
+</table>
