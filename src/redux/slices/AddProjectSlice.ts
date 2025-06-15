@@ -12,11 +12,13 @@ const initialState = {
 	error: null
 };
 
+type ProjectFormFields = keyof typeof initialState.currentProjectForm;
+
 const addProjectSlice = createSlice({
 	name: 'addProject',
 	initialState,
 	reducers: {
-		updateFormField: (state, action) => {
+		updateFormField: (state, action: { payload: { field: ProjectFormFields; value: string } }) => {
 			const { field, value } = action.payload;
 			state.currentProjectForm[field] = value;
 		},
@@ -43,6 +45,6 @@ const addProjectSlice = createSlice({
 export const { updateFormField, resetForm, setSubmitting, submissionSucceeded, submissionFailed } = addProjectSlice.actions;
 export default addProjectSlice.reducer;
 
-export const selectCurrentProjectForm = (state) => state.addProject.currentProjectForm;
-export const selectAddProjectStatus = (state) => state.addProject.status;
-export const selectAddProjectError = (state) => state.addProject.error;
+export const selectCurrentProjectForm = (state: any) => state.addProject.currentProjectForm;
+export const selectAddProjectStatus = (state: any) => state.addProject.status;
+export const selectAddProjectError = (state: any) => state.addProject.error;

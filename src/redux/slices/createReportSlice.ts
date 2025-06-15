@@ -26,7 +26,7 @@ const createReportSlice = createSlice({
 	reducers: {
 		updateFormField: (state, action) => {
 			const { field, value } = action.payload;
-			state.currentReportForm[field] = value;
+			(state as any).currentReportForm[field] = value;
 		},
 		resetForm: (state) => {
 			state.currentReportForm = initialState.currentReportForm;
@@ -54,6 +54,6 @@ const createReportSlice = createSlice({
 
 export const { updateFormField, resetForm, setSubmitting, submissionSucceeded, submissionFailed, reportAdded } = createReportSlice.actions;
 export default createReportSlice.reducer;
-export const selectCurrentReportForm = (state) => state.createReport.currentReportForm;
-export const selectCreateReportStatus = (state) => state.createReport.status;
-export const selectCreateReportError = (state) => state.createReport.error;
+export const selectCurrentReportForm = (state: any) => state.createReport.currentReportForm;
+export const selectCreateReportStatus = (state: any) => state.createReport.status;
+export const selectCreateReportError = (state: any) => state.createReport.error;

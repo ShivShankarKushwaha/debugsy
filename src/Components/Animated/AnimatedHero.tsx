@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 const sectionVariants = {
 	hidden: { opacity: 0, y: 50 },
-	visible: { opacity: 1, y: 0, transition: { type: 'spring', damping: 12, stiffness: 100, duration: 0.8 } }
+	visible: { opacity: 1, y: 0, transition: { type: 'spring' as const, damping: 12, stiffness: 100, duration: 0.8 } }
 };
 
 const AnimatedHero: React.FC = () => (

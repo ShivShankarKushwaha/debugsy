@@ -39,4 +39,4 @@ export const { addTeamMember, removeTeamMember, updateTeamMember } = teamSlice.a
 
 export default teamSlice.reducer;
 
-export const selectTeamMembers = (state) => state.team.members;
+export const selectTeamMembers = (state: any) => state.team.members;

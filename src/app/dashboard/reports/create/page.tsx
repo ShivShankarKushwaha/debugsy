@@ -84,7 +84,7 @@ const CreateReportPage = () => {
 								className="font-inter mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 p-2 text-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
 								required
 							>
-								{projects.map((p) => (
+								{projects.map((p: any) => (
 									<option key={p.id} value={p.id}>
 										{p.name}
 									</option>

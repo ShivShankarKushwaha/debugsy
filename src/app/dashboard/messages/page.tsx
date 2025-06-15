@@ -62,7 +62,7 @@ const MessagesPage = () => {
 				<h2 className="font-inter mb-4 text-xl font-semibold text-gray-200">Your Inbox</h2>
 				{messages.length > 0 ? (
 					<ul className="w-full max-w-[80vw] divide-y divide-gray-700 overflow-x-auto">
-						{messages.map((message) => (
+						{messages.map((message: any) => (
 							<li
 								key={message.id}
 								className={`flex items-center justify-between rounded-lg px-2 py-4 transition-colors duration-150 hover:bg-gray-700 ${!message.read ? 'bg-gray-700/30' : ''}`}

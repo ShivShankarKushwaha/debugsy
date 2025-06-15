@@ -65,5 +65,5 @@ const projectsSlice = createSlice({
 
 export const { addProject, updateProject, deleteProject } = projectsSlice.actions;
 export default projectsSlice.reducer;
-export const selectAllProjects = (state) => state.projects.projects;
-export const selectProjectById = (state, projectId) => state.projects.projects.find((project) => project.id === projectId);
+export const selectAllProjects = (state: any) => state.projects.projects;
+export const selectProjectById = (state: any, projectId: any) => state.projects.projects.find((project: any) => project.id === projectId);

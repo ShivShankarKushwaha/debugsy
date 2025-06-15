@@ -30,7 +30,7 @@ const AddProjectPage = () => {
 		}
 		dispatch(addProject(projectData));
 		toast.success('Project added successfully!');
-		e.target?.reset();
+		(e.target as HTMLFormElement).reset();
 	};
 	return (
 		<div className="mt-36 min-h-screen p-2 sm:p-6 lg:mt-auto lg:ml-40">

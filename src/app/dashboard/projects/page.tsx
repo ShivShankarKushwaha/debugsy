@@ -28,7 +28,7 @@ const ProjectsPage = () => {
 							</tr>
 						</thead>
 						<tbody className="divide-y divide-gray-700 bg-gray-800">
-							{projects.map((project) => (
+							{projects.map((project: any) => (
 								<tr key={project.id}>
 									<td className="font-inter px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-400">{project.name}</td>
 									<td className="font-inter px-6 py-4 text-sm whitespace-nowrap text-gray-400">

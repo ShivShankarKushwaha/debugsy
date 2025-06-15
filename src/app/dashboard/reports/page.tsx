@@ -23,7 +23,7 @@ const ReportsPage = () => {
 	};
 
 	const filteredReports = useMemo(() => {
-		return teamReports.filter((report) => {
+		return teamReports.filter((report: any) => {
 			const matchesSearch =
 				search.trim() === '' ||
 				report.id.toString().toLowerCase().includes(search.toLowerCase()) ||

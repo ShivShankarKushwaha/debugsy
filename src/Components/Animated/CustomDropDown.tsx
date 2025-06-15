@@ -15,7 +15,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 
 	// Close dropdown when clicking outside
 	useEffect(() => {
-		const handleClickOutside = (event) => {
+		const handleClickOutside = (event: any) => {
 			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
 				setIsOpen(false);
 			}
@@ -26,7 +26,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 		};
 	}, []);
 
-	const handleSelectRole = (role) => {
+	const handleSelectRole = (role: any) => {
 		setSelectedRole(role);
 		setIsOpen(false);
 		if (onSelect) {
@@ -39,8 +39,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({ onSelect, initialRole =
 	};
 
 	const dropdownVariants = {
-		hidden: { opacity: 0, y: -10, scaleY: 0.8, transition: { duration: 0.2, ease: 'easeOut' } },
-		visible: { opacity: 1, y: 0, scaleY: 1, transition: { duration: 0.2, ease: 'easeOut' } }
+		hidden: { opacity: 0, y: -10, scaleY: 0.8, transition: { duration: 0.2, ease: 'easeOut' as const } },
+		visible: { opacity: 1, y: 0, scaleY: 1, transition: { duration: 0.2, ease: 'easeOut' as const } }
 	};
 
 	return (
