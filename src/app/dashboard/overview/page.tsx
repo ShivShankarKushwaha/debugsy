@@ -15,7 +15,7 @@ const OverView = () => {
 	const teamReports = useSelector(selectAllReports);
 	const projects = useSelector(selectAllProjects);
 	const teamMembers = useSelector(selectTeamMembers).slice(0, 5);
-	const myReports = teamReports.filter((report) => report.assignedTo === user?.username);
+	const myReports = teamReports.filter((report: any) => report.assignedTo === user?.username);
 	const managerUpcomingDeadlines = projects.filter((report: { endDate: string }) => new Date(report.endDate).getTime() > Date.now());
 	const userRole = user?.role?.toLowerCase();
 
@@ -76,7 +76,7 @@ const OverView = () => {
 						<div className="rounded-xl bg-gray-800 p-6 shadow-sm lg:col-span-2">
 							<h2 className="font-inter mb-4 text-xl font-semibold text-gray-300">Managerial Tasks</h2>
 							<ul className="space-y-4">
-								{teamReports.map((task) => (
+								{teamReports.map((task: any) => (
 									<li key={task.id} className="flex flex-col items-center justify-between gap-5 border-b border-gray-700 pb-2 lg:flex-row lg:gap-0">
 										<div className="flex items-center">
 											<input type="checkbox" className="form-checkbox mr-3 h-5 w-5 rounded text-indigo-600" />
@@ -116,7 +116,7 @@ const OverView = () => {
 						<div className="rounded-xl bg-gray-800 p-6 shadow-sm">
 							<h2 className="font-inter mb-4 text-xl font-semibold text-gray-300">Team</h2>
 							<ul className="space-y-3">
-								{teamMembers.map((member) => (
+								{teamMembers.map((member: any) => (
 									<li key={member.name} className="flex items-center">
 										<Image width={32} height={32} src={member.avatar} alt={member.name} className="mr-3 h-8 w-8 rounded-full border" />
 										<span className="font-inter text-gray-300">{member.name}</span>
@@ -144,7 +144,7 @@ const OverView = () => {
 										</tr>
 									</thead>
 									<tbody className="divide-y divide-gray-700 bg-gray-800">
-										{managerUpcomingDeadlines.map((deadline, index) => (
+										{managerUpcomingDeadlines.map((deadline: any, index: any) => (
 											<tr key={index}>
 												<td className="font-inter px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-200">{deadline.name}</td>
 												<td className="font-inter px-6 py-4 text-sm whitespace-nowrap text-gray-200">{deadline.startDate}</td>
@@ -217,7 +217,7 @@ const OverView = () => {
 									</tr>
 								</thead>
 								<tbody className="divide-y divide-gray-700 bg-gray-800">
-									{myReports.map((item) => (
+									{myReports.map((item: any) => (
 										<tr key={item.id}>
 											<td className="font-inter px-6 py-4 text-sm font-medium whitespace-nowrap text-gray-200">{item.reportTitle}</td>
 											<td className="font-inter px-6 py-4 text-sm whitespace-nowrap text-gray-200">{item.reportType}</td>

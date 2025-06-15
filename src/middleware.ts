@@ -17,10 +17,10 @@ export default async function middleware(req: NextRequest) {
 
 		try {
 			const secret = new TextEncoder().encode(process.env.APP_SECRET!);
-			const user = await jwtVerify(token, secret);
-			console.log('middleware user', user);
+			const { payload } = (await jwtVerify(token, secret)) as { payload: { role?: string } };
+			console.log('middleware user', payload);
 
-			if (pathname.includes('/dashboard/projects/add') && user?.payload?.role?.toLowerCase() === 'developer') {
+			if (pathname.includes('/dashboard/projects/add') && typeof payload.role === 'string' && payload.role.toLowerCase() === 'developer') {
 				const redirectUrl = new URL('/dashboard/projects', req.url);
 				return NextResponse.redirect(redirectUrl);
 			}

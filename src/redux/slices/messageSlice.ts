@@ -54,7 +54,7 @@ const messagesSlice = createSlice({
 		},
 		updateComposeField: (state, action) => {
 			const { field, value } = action.payload;
-			state.composeForm[field] = value;
+			(state as any).composeForm[field] = value;
 		},
 		resetComposeForm: (state) => {
 			state.composeForm = initialState.composeForm;
@@ -89,7 +89,7 @@ export const {
 
 export default messagesSlice.reducer;
 
-export const selectAllMessages = (state) => state.messages.inboxMessages;
-export const selectComposeForm = (state) => state.messages.composeForm;
-export const selectMessagesStatus = (state) => state.messages.status;
-export const selectMessagesError = (state) => state.messages.error;
+export const selectAllMessages = (state: any) => state.messages.inboxMessages;
+export const selectComposeForm = (state: any) => state.messages.composeForm;
+export const selectMessagesStatus = (state: any) => state.messages.status;
+export const selectMessagesError = (state: any) => state.messages.error;

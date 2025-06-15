@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
 	}
 
 	try {
-		const decoded = verifyToken(token);
+		const decoded: any = verifyToken(token);
 		console.log(token, decoded);
 		if (!decoded?.id) {
 			return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

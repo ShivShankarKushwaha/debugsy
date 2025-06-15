@@ -16,11 +16,11 @@ const TrendLineChart = () => {
 	const plotWidth = svgWidth - plotXStart - 10;
 	const plotHeight = svgHeight - plotYStart - 40;
 
-	const yScale = (val) => {
+	const yScale = (val: any) => {
 		return plotYStart + plotHeight - ((val - minVal) / (maxVal - minVal + 1)) * plotHeight;
 	};
 
-	const xScale = (index) => {
+	const xScale = (index: any) => {
 		return plotXStart + (index * plotWidth) / (dataPoints.length - 1);
 	};
 

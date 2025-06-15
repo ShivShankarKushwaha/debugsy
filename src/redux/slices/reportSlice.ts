@@ -97,5 +97,5 @@ const reportsSlice = createSlice({
 
 export const { addReport, updateReport, deleteReport } = reportsSlice.actions;
 export default reportsSlice.reducer;
-export const selectAllReports = (state) => state.reports.reports;
-export const selectReportById = (state, reportId) => state.reports.reports.find((report) => report.id === reportId);
+export const selectAllReports = (state: any) => state.reports.reports;
+export const selectReportById = (state: any, reportId: any) => state.reports.reports.find((report: any) => report.id === reportId);
