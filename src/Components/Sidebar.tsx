@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { Home, Folder, BarChart2, MessageSquare, Settings, PlusCircle, LogOut, Menu, Cross } from 'lucide-react';
 import Image from 'next/image';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '@/redux/slices/AuthSlice';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { AppDispatch } from '@/redux/store';
+import { AppDispatch, RootState } from '@/redux/store';
 import { usePathname, useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 
@@ -15,6 +15,9 @@ const Sidebar = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const pathName = usePathname();
 	const router = useRouter();
+	const { user } = useSelector((state: RootState) => state.auth);
+	console.log('user in sidebar', user);
+
 	const navItems = [
 		{ name: 'Overview', link: '/dashboard/overview', icon: <Home size={20} /> },
 		{ name: 'Projects', link: '/dashboard/projects', icon: <Folder size={20} /> },
@@ -115,13 +118,15 @@ const Sidebar = () => {
 
 					{/* Actions */}
 					<div className="mt-auto">
-						<button
-							onClick={() => router.push('/dashboard/projects/add')}
-							className="font-inter mb-4 flex w-full cursor-pointer items-center justify-center rounded-xl bg-emerald-400 px-4 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-emerald-500"
-						>
-							<PlusCircle size={20} className="mr-2" />
-							Add Project
-						</button>
+						{user?.role?.toLowerCase() == 'manager' && (
+							<button
+								onClick={() => router.push('/dashboard/projects/add')}
+								className="font-inter mb-4 flex w-full cursor-pointer items-center justify-center rounded-xl bg-emerald-400 px-4 py-3 text-white shadow-lg transition-colors duration-200 hover:bg-emerald-500"
+							>
+								<PlusCircle size={20} className="mr-2" />
+								Add Project
+							</button>
+						)}
 						<button
 							onClick={handleSignOut}
 							className="font-inter flex w-full cursor-pointer items-center justify-center rounded-xl px-4 py-3 text-gray-400 transition-colors duration-200 hover:bg-gray-700"

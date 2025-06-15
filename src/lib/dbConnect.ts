@@ -19,22 +19,18 @@ if (!cached) {
 }
 
 const dbConnect = async () => {
-	// If a connection is already established, return it.
 	if (cached.conn) {
 		return cached.conn;
 	}
 
 	if (!cached.promise) {
 		const opts = {
-			bufferCommands: false // Disable Mongoose's internal buffering
-			// You can add other options here, e.g., useNewUrlParser: true, useUnifiedTopology: true
-			// These are often not needed with recent Mongoose versions as they are defaults.
+			bufferCommands: false // Disable mongoose's buffering of commands
 		};
 
 		cached.promise = mongoose.connect(uri, opts);
 	}
 
-	// Await the connection promise and cache the connection object
 	cached.conn = await cached.promise;
 	return cached.conn;
 };

@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 		if (!decoded?.id) {
 			return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
 		}
-		const user = (await User.findOne({ _id: decoded?.id })).toObject();
+		const user = (await User.findOne({ _id: decoded?.id }))?.toObject();
 		if (!user) {
 			return NextResponse.json({ error: 'User not found' }, { status: 404 });
 		}

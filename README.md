@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Debugsy - Bug/Task Tracker Interface
 
-## Getting Started
+## 🚀 Project Overview
 
-First, run the development server:
+**Debugsy** is a web-based Bug/Task Tracker application developed to showcase frontend development capabilities using **ReactJS**, **Redux Toolkit**, and **Tailwind CSS**. It features a role-based dashboard with customized interfaces for developers and managers.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎯 Assignment Description
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This project was built as a frontend development assessment focusing on:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- UI/UX design
+- Next.js proficiency
+- State management
+- Modular architecture
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## ✅ Core Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 👥 User Authentication / Role Management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Simulated login system with role-switching via sidebar dropdown.
+- Dynamic dashboard views based on role (Developer or Manager).
 
-## Deploy on Vercel
+### 📊 Dashboard Highlights
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Developer View**: Assigned tasks, upcoming deadlines, and recent activity.
+- **Manager View**: Key metrics (bug stats, projects, deadlines) and trend analysis.
+- Simulated trend line chart for task concurrency.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🐞 Task / Bug Creation
+
+- "Create Report" page for developers with fields like title, description, type, project, priority, etc.
+- Optional file upload for screenshots (simulated).
+
+### 🗂️ Task / Bug Management
+
+- Displayed in tables with status badges.
+- Actions: Edit and Delete (simulated, Redux-only).
+- Status: To Do, In Progress, In Review, Done.
+
+### ⏱️ Time Tracker (Simulated)
+
+- UI placeholders available; not implemented.
+
+### 💅 UI/UX
+
+- Tailwind CSS styled, fully responsive.
+- Clean and intuitive layout with role-aware navigation.
+
+---
+
+## 🛠️ Technology Stack
+
+- **Frontend**: Next.js
+- **State**: Redux Toolkit
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Charts**: SVG and chart.js
+
+---
+
+## 🤖 Assumptions and Simplifications
+
+- Simulated Redux and authentication.
+- No persistent backend.
+- No file upload storage.
+- No real-time communication.
+- IDs via `Date.now()`.
+- State resets on reload.
+
+---
+
+## 🔍 Areas to Highlight
+
+- Modular Redux slices (user, dashboardMetrics, reports, etc.)
+- Dynamic role-based UI rendering
+- Component-based architecture
+- Form integration with Redux
+- Simulated but realistic frontend workflow
+
+---
+
+## 🌱 Future Improvements
+
+- Backend Integration (Node.js, Django, Firebase, etc.)
+- Real Authentication (JWT, sessions)
+- Real-time updates (WebSocket/Firebase)
+- Full CRUD with modals and pagination
+- Time tracking system
+- Notifications
+- File uploads (S3/Firebase)
+- User profile system
+- Testing (unit, E2E)
+- Enhanced error handling & UX
+
+---
+
+## 📦 Deliverables
+
+- GitHub repo with source code
+- README (this file)
+- Screenshots of major features
+- Live demo (e.g., Vercel)
+- Optional: video walkthrough
+
+---
+
+## 🔗 Demo
+
+👉 [shivshankar.vercel.app](https://shivshankar.vercel.app)
+
+---
+
+© 2025 Shiv Shankar Kushwaha

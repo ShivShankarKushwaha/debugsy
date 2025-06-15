@@ -29,10 +29,12 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 	const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		const formData = new FormData(e.target as HTMLFormElement);
+
 		const username = formData.get('username') as string;
 		const email = formData.get('email') as string;
 		const password = formData.get('password') as string;
 		const confirmPassword = formData.get('confirmPassword') as string;
+		const role = formData.get('role') as string | 'Developer';
 		if (password !== confirmPassword) {
 			return toast.error('Passwords do not match. Please try again.');
 		}
@@ -42,7 +44,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ username, email, password, confirmPassword })
+				body: JSON.stringify({ username, email, password, confirmPassword, role })
 			});
 
 			if (!response.ok) {
@@ -53,8 +55,8 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 			const data = await response.json();
 			console.log('Sign up successful:', data);
 			toast.success('Sign up successful! Redirecting to login...');
-			onClose(); // Close the modal on successful sign up
-			dispatch(switchModal('login')); // Switch to login modal
+			onClose();
+			dispatch(switchModal('login'));
 		} catch (error) {
 			console.error('Error during sign up:', error);
 			toast.error(error instanceof Error ? error.message : 'An error occurred during sign up. Please try again later.');
@@ -163,9 +165,21 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 								</label>
 								<CustomDropdown
 									options={['Developer', 'Manager']}
-									onSelect={(role: string) => console.log('Selected role:', role)}
+									onSelect={(role: string) => {
+										setTimeout(() => {
+											const form = document.querySelector('form');
+											if (form) {
+												const hiddenInput = form.querySelector('input[name="role"]') as HTMLInputElement;
+												if (hiddenInput) {
+													hiddenInput.value = role;
+													hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+												}
+											}
+										}, 0);
+									}}
 									initialRole="Developer"
 								/>
+								<input type="hidden" name="role" value="Developer" />
 							</div>
 
 							<div>

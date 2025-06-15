@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import Jwt from 'jsonwebtoken';
+import { cookies } from 'next/headers';
 
 export const hashPassword = async (password: string) => {
 	const hashedPassword = await bcrypt.hash(password, 11);
@@ -31,5 +32,19 @@ export const verifyToken = (token: string) => {
 		return payload;
 	} catch {
 		throw new Error('Invalid or expired token');
+	}
+};
+
+export const getUserFromCookie = async () => {
+	try {
+		const cookieStore = await cookies();
+		const token = cookieStore.get('token')?.value;
+		if (!token) {
+			return null;
+		}
+		const userData = verifyToken(token);
+		return userData;
+	} catch {
+		return null;
 	}
 };
