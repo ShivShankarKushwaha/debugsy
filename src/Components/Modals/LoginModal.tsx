@@ -1,3 +1,4 @@
+'use client';
 import React, { ReactNode } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useDispatch } from 'react-redux';
@@ -7,6 +8,9 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { loginSuccess } from '@/redux/slices/AuthSlice';
 import Image from 'next/image';
+import { GoogleLoginButton } from '../GoogleLogin';
+import { signIn } from 'next-auth/react';
+import { PrimaryButton } from '../Button';
 
 interface LoginModalProps {
 	open: boolean;
@@ -25,36 +29,62 @@ const modalVariants = {
 };
 
 const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
+	const [isLoading, setIsLoading] = React.useState(false);
 	const dispatch = useDispatch();
 	const router = useRouter();
 	const handleSwitchToSignup = (e: React.MouseEvent) => {
 		e.stopPropagation();
 		dispatch(switchModal('signup'));
 	};
-	const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		const formData = new FormData(e.target as HTMLFormElement);
-		const email = formData.get('email') as string;
-		const password = formData.get('password') as string;
-
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		try {
-			const response = await fetch('/api/login', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ email, password })
+			setIsLoading(true);
+			e.preventDefault();
+			const formData = new FormData(e.target as HTMLFormElement);
+			const email = formData.get('email') as string;
+			const password = formData.get('password') as string;
+			console.log('Submitting login form:', { email, password });
+
+			const data = await signIn('credentials', {
+				redirect: false,
+				email,
+				password
+				// callbackUrl: '/dashboard/overview'
 			});
+			setIsLoading(false);
+			console.log('signIn response data:', data); // Log the data to inspect its structure
 
-			if (!response.ok) {
-				const errorData = await response.json();
-				return toast.error(errorData?.message || 'Login failed. Please check your credentials and try again.');
+			// // --- IMPORTANT: Check for an error property in the returned data ---
+			if (data?.error) {
+				// 	// NextAuth.js will put an error message here if authorization failed
+				// 	// The error message might be generic like "CredentialsSignin"
+				// 	// You might need to map these to more user-friendly messages if needed
+				// 	let errorMessage = 'An unexpected error occurred. Please try again.';
+
+				// 	// NextAuth.js often returns a generic "CredentialsSignin" error
+				// 	// when your authorize function throws an error.
+				// 	// To get your specific error message, you might need to look into
+				// 	// NextAuth.js's internal error handling or consider custom error pages.
+				// 	if (data.error === 'CredentialsSignin') {
+				// 		// This is a common error when authorize() returns null or throws an error.
+				// 		// It's a good practice to provide a general message here for security reasons,
+				// 		// rather than revealing whether it was an invalid email or password.
+				// 		errorMessage = 'Invalid email or password. Please check your credentials.';
+				// 	} else if (data.error === 'EmailNotVerified') {
+				// 		// Example: If you customize NextAuth.js to pass this through
+				// 		errorMessage = 'Your email is not verified. Please check your inbox.';
+				// 	} else {
+				// 		errorMessage = data.error; // Use the raw error if it's more specific
+				// 	}
+
+				toast.error(data?.error || 'Login failed. Please check your credentials and try again.');
+				// You might want to return here to prevent further execution on error
+				return;
 			}
-
-			const data = await response.json();
+			toast.success('Login successful!');
 			console.log('Login successful:', data);
-			toast.success('Login successful! Redirecting to dashboard...');
-			dispatch(loginSuccess(data.user));
+
+			dispatch(loginSuccess(data));
 
 			const searchParams = new URLSearchParams(window.location.search);
 			const redirectUrl = searchParams.get('from');
@@ -65,7 +95,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 			} else {
 				console.log('No redirect URL found, navigating to dashboard');
 
-				await router.push('/dashboard/overview');
+				await router.push('/dashboard');
 			}
 			setTimeout(() => {
 				onClose();
@@ -75,6 +105,50 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 			toast.error(error instanceof Error ? error.message : 'An error occurred during login. Please try again later.');
 		}
 	};
+	// const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+	// 	e.preventDefault();
+	// 	const formData = new FormData(e.target as HTMLFormElement);
+	// 	const email = formData.get('email') as string;
+	// 	const password = formData.get('password') as string;
+
+	// 	try {
+	// 		const response = await fetch('/api/login', {
+	// 			method: 'POST',
+	// 			headers: {
+	// 				'Content-Type': 'application/json'
+	// 			},
+	// 			body: JSON.stringify({ email, password })
+	// 		});
+
+	// 		if (!response.ok) {
+	// 			const errorData = await response.json();
+	// 			return toast.error(errorData?.message || 'Login failed. Please check your credentials and try again.');
+	// 		}
+
+	// 		const data = await response.json();
+	// 		console.log('Login successful:', data);
+	// 		toast.success('Login successful! Redirecting to dashboard...');
+	// 		dispatch(loginSuccess(data.user));
+
+	// 		const searchParams = new URLSearchParams(window.location.search);
+	// 		const redirectUrl = searchParams.get('from');
+
+	// 		if (redirectUrl && redirectUrl.trim() !== '') {
+	// 			console.log('Redirecting to:', redirectUrl);
+	// 			await router.push(redirectUrl);
+	// 		} else {
+	// 			console.log('No redirect URL found, navigating to dashboard');
+
+	// 			await router.push('/dashboard/overview');
+	// 		}
+	// 		setTimeout(() => {
+	// 			onClose();
+	// 		}, 1000);
+	// 	} catch (error) {
+	// 		console.error('Error during login:', error);
+	// 		toast.error(error instanceof Error ? error.message : 'An error occurred during login. Please try again later.');
+	// 	}
+	// };
 	return (
 		<AnimatePresence>
 			{open && (
@@ -118,7 +192,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 							Your unified platform for project and task management. Log in to access your personalized dashboard.
 						</p>
 
-						<form className="space-y-6" onSubmit={handleLogin}>
+						<form className="space-y-6" onSubmit={handleSubmit}>
 							<div>
 								<label htmlFor="email" className="mb-1 block text-sm font-medium text-gray-300">
 									Email Address
@@ -168,13 +242,17 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 							</div>
 
 							<div>
+								<PrimaryButton text="Sign in" loading={isLoading} type="submit" />
+							</div>
+
+							{/* <div>
 								<button
 									type="submit"
 									className="flex w-full transform cursor-pointer justify-center rounded-lg border border-transparent bg-gradient-to-r from-emerald-500 to-green-600 px-4 py-3 text-base font-semibold text-white shadow-sm transition-all duration-200 ease-in-out hover:scale-105 hover:from-emerald-600 hover:to-green-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
 								>
 									Sign in
 								</button>
-							</div>
+							</div> */}
 						</form>
 
 						<div className="mt-8 text-center">
@@ -187,6 +265,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ open, onClose }) => {
 									Sign up
 								</button>
 							</p>
+						</div>
+						<div className="mt-6 flex w-full justify-center border-t border-gray-700 pt-4 text-center">
+							<GoogleLoginButton />
 						</div>
 					</motion.div>
 				</motion.div>

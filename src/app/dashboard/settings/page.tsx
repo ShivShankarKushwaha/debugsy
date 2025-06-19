@@ -11,13 +11,13 @@ const SettingsPage = () => {
 				<h2 className="font-inter mb-4 text-xl font-semibold text-gray-200">Account Settings</h2>
 				<div className="space-y-4">
 					<div className="flex flex-col items-center justify-between border-b border-gray-700 pb-3 lg:flex-row">
-						<label htmlFor="username" className="font-inter text-gray-300">
-							Username:
+						<label htmlFor="name" className="font-inter text-gray-300">
+							name:
 						</label>
 						<input
 							type="text"
-							id="username"
-							defaultValue={user?.username}
+							id="name"
+							defaultValue={user?.name}
 							className="font-inter rounded-md border border-gray-700 bg-gray-900 p-2 text-gray-300 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
 						/>
 					</div>

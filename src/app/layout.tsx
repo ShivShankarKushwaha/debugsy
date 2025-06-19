@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Footer from '@/Components/Footer';
 import { ReduxProvider } from '@/redux/provider';
-import AuthModals from '@/Components/Modals/AuthModal';
 import AppInitializer from '@/Components/AppInitializer';
+import AuthSessionProvider from '@/Components/Provider/AuthSession';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -54,13 +54,14 @@ export default function RootLayout({
 			</head>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 				<ReduxProvider>
-					<AppInitializer>
-						<div className="font-inter min-h-screen bg-gray-900 text-white">
-							{children}
-							<AuthModals />
-							<Footer />
-						</div>
-					</AppInitializer>
+					<AuthSessionProvider>
+						<AppInitializer>
+							<div className="font-inter min-h-screen bg-gray-900 text-white">
+								{children}
+								<Footer />
+							</div>
+						</AppInitializer>
+					</AuthSessionProvider>
 				</ReduxProvider>
 			</body>
 		</html>

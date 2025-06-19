@@ -1,36 +1,39 @@
 'use client';
 
 import { closeModal, openModal } from '@/redux/slices/AuthModalSlice';
-import { setInitialLoginStatus } from '@/redux/slices/AuthSlice';
 import { RootState } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Bounce, ToastContainer } from 'react-toastify';
-import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import AuthModals from './Modals/AuthModal';
 
 export default function AppInitializer({ children }: { children: React.ReactNode }) {
+	const { data: session, status } = useSession();
 	const dispatch = useDispatch();
-	const router = useRouter();
 	const { open, type } = useSelector((state: RootState) => state.authmodal);
 	const [initialized, setInitialized] = useState(false);
 
 	useEffect(() => {
-		const fetchUser = async () => {
-			try {
-				const res = await fetch('/api/user', { credentials: 'include' });
-				const user = await res.json();
-				dispatch(setInitialLoginStatus({ isLoggedIn: res.ok, user: res.ok ? user : null }));
-			} catch {
-				dispatch(setInitialLoginStatus({ isLoggedIn: false, user: null }));
-				router.push('/');
-			}
-		};
-		fetchUser();
-	}, [dispatch, router]);
+		console.log('AppInitializer mounted', session, status, open, type);
+		if (status === 'loading') {
+			console.log('Session is loading, skipping hash change handling');
+			return;
+		}
 
-	useEffect(() => {
 		const handleHashChange = () => {
 			const hash = window.location.hash;
+
+			// ✅ If user is logged in, skip modal logic
+			if (session?.user) {
+				if (open) {
+					dispatch(closeModal());
+				}
+				if (hash === '#login' || hash === '#signup') {
+					window.history.replaceState(null, '', window.location.pathname + window.location.search);
+				}
+				return;
+			}
 
 			if (hash === '#login') {
 				if (type !== 'login' || !open) {
@@ -47,28 +50,32 @@ export default function AppInitializer({ children }: { children: React.ReactNode
 			}
 		};
 
-		// Handle initial hash on first render
-		if (!initialized) {
+		if (!initialized && (status === 'authenticated' || status === 'unauthenticated')) {
 			handleHashChange();
 			setInitialized(true);
 		}
 
 		window.addEventListener('hashchange', handleHashChange);
 		return () => window.removeEventListener('hashchange', handleHashChange);
-	}, [dispatch, open, type, initialized]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [dispatch, open, type, initialized, session?.user, status]);
 
 	useEffect(() => {
-		const currentHash = window.location.hash;
+		if (status === 'loading') {
+			console.log('Session is loading, skipping hash change handling');
+			return;
+		}
 
+		const currentHash = window.location.hash;
 		if (open && type && currentHash !== `#${type}`) {
 			window.history.replaceState(null, '', `#${type}`);
 		} else if (!open && (currentHash === '#login' || currentHash === '#signup')) {
 			window.history.replaceState(null, '', window.location.pathname + window.location.search);
 		}
-	}, [open, type]);
-
+	}, [open, type, status]);
 	return (
 		<>
+			<AuthModals />
 			{children}
 			<ToastContainer
 				position="bottom-right"

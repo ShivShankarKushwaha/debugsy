@@ -28,7 +28,7 @@ const AnimatedHero: React.FC = () => (
 					href="/dashboard/overview"
 					className="cursor-pointer rounded-lg border border-transparent bg-gradient-to-r from-emerald-600 to-green-700 px-10 py-4 text-lg font-semibold text-white shadow-xl transition-all duration-300 ease-in-out hover:from-emerald-700 hover:to-green-800 focus:ring-4 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none sm:text-xl"
 				>
-					Start Free Trial
+					Get Started for Free
 				</motion.a>
 				<motion.button
 					whileHover={{ scale: 1.05 }}
