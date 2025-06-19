@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { signOut } from 'next-auth/react';
 
 interface AuthState {
 	isLoggedIn: boolean;
@@ -6,7 +7,7 @@ interface AuthState {
 	user: {
 		id: string;
 		email: string;
-		username?: string;
+		name?: string;
 		avatar?: string;
 		role?: string;
 	} | null;
@@ -61,14 +62,15 @@ export default authSlice.reducer;
 
 export const logoutUser = createAsyncThunk('auth/logoutUser', async (_, { dispatch, rejectWithValue }) => {
 	try {
-		const res = await fetch('/api/signout', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' }
-		});
+		await signOut({ redirect: false });
+		// const res = await fetch('/api/signout', {
+		// 	method: 'POST',
+		// 	headers: { 'Content-Type': 'application/json' }
+		// });
 
-		if (!res.ok) {
-			throw new Error('Failed to sign out');
-		}
+		// if (!res.ok) {
+		// 	throw new Error('Failed to sign out');
+		// }
 
 		dispatch(logout());
 		return true;

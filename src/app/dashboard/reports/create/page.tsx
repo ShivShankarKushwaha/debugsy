@@ -29,7 +29,7 @@ const CreateReportPage = () => {
 		const newReport = {
 			...reportData,
 			id: Date.now().toString(),
-			reporter: user?.username || 'Anonymous',
+			reporter: user?.name || 'Anonymous',
 			avatar: user?.avatar || 'https://placehold.co/32x32/2196F3/FFFFFF?text=AN'
 		};
 		toast.success('Bug Report Submitted Successfully!');
@@ -159,7 +159,7 @@ const CreateReportPage = () => {
 						<input
 							type="text"
 							id="reporter"
-							value={user?.username}
+							value={user?.name}
 							readOnly
 							className="font-inter mt-1 block w-full rounded-md border border-gray-700 bg-gray-900 p-2 text-gray-400 shadow-sm sm:text-sm"
 						/>

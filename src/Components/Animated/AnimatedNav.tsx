@@ -9,12 +9,15 @@ import { logoutUser } from '@/redux/slices/AuthSlice';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { toast } from 'react-toastify';
+import { SecondaryButton } from '../Button';
 
 const AnimatedNav: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const pathName = usePathname();
 	const router = useRouter();
 	const { isLoggedIn, loading, user } = useSelector((state: RootState) => state.auth);
+	console.log('user in nav:', user);
+
 	const [isLogoutButtonVisible, setIsLogoutButtonVisible] = useState(false);
 
 	const handleSignOut = async () => {
@@ -55,23 +58,23 @@ const AnimatedNav: React.FC = () => {
 				) : isLoggedIn && user ? (
 					<div className="flex items-center space-x-4">
 						<AnimatePresence>
-							<button
+							<Link
 								key={'dashboard-button'}
-								onClick={async () => await router.push('/dashboard/overview')}
+								href={'/dashboard/overview'}
 								className="mr-10 cursor-pointer rounded-lg border border-emerald-500 px-4 py-2 font-medium text-emerald-300 transition-colors duration-200 ease-in-out hover:bg-emerald-900"
 							>
 								Dashboard
-							</button>
+							</Link>
 							<div key={'user profile'} className="flex items-center space-x-2" onMouseOver={showLogoutButton}>
 								<Image
 									width={100}
 									height={100}
 									src={user.avatar || '/user.png'}
-									alt={user.username || 'User'}
+									alt={user.name || 'User'}
 									className="h-8 w-8 rounded-full border border-emerald-400"
-									title={user?.username || 'User Avatar'}
+									title={user?.name || 'User Avatar'}
 								/>
-								<span className="font-medium text-emerald-200">{user.username}</span>
+								<span className="font-medium text-emerald-200">{user.name}</span>
 							</div>
 							{isLogoutButtonVisible && (
 								<motion.button
@@ -90,12 +93,13 @@ const AnimatedNav: React.FC = () => {
 						</AnimatePresence>
 					</div>
 				) : (
-					<button
-						onClick={() => dispatch(openModal('login'))}
-						className="cursor-pointer rounded-lg border border-emerald-500 px-4 py-2 font-medium text-emerald-300 transition-colors duration-200 ease-in-out hover:bg-emerald-900"
-					>
-						Sign In
-					</button>
+					<SecondaryButton text="Sign In" onClick={() => dispatch(openModal('login'))} />
+					// <button
+					// 	onClick={() => dispatch(openModal('login'))}
+					// 	className="cursor-pointer rounded-lg border border-emerald-500 px-4 py-2 font-medium text-emerald-300 transition-colors duration-200 ease-in-out hover:bg-emerald-900"
+					// >
+					// 	Sign In
+					// </button>
 				)}
 			</div>
 			{/* Hamburger menu for mobile */}
@@ -136,10 +140,10 @@ const AnimatedNav: React.FC = () => {
 											width={32}
 											height={32}
 											src={user.avatar || '/user.png'}
-											alt={user.username || 'User'}
+											alt={user.name || 'User'}
 											className="h-8 w-8 rounded-full border border-emerald-400"
 										/>
-										<span className="font-medium text-emerald-200">{user.username}</span>
+										<span className="font-medium text-emerald-200">{user.name}</span>
 									</div>
 									<button
 										onClick={async () => {

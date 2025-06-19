@@ -1,6 +1,9 @@
 import bcrypt from 'bcrypt';
 import Jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+import dbConnect from './dbConnect';
+import { IUser, User } from '@/models/User';
+import crypto from 'crypto';
 
 export const hashPassword = async (password: string) => {
 	const hashedPassword = await bcrypt.hash(password, 11);
@@ -14,7 +17,7 @@ export const comparePassword = async (password: string, hashedPassword: string) 
 
 export const generateToken = (payload: object) => {
 	console.log('payload', payload);
-	const appSecret = process.env.APP_SECRET;
+	const appSecret = process.env.NEXTAUTH_SECRET;
 	if (!appSecret) {
 		throw new Error('APP_SECRET is not defined in environment variables');
 	}
@@ -23,7 +26,7 @@ export const generateToken = (payload: object) => {
 };
 
 export const verifyToken = (token: string) => {
-	const appSecret = process.env.APP_SECRET;
+	const appSecret = process.env.NEXTAUTH_SECRET;
 	if (!appSecret) {
 		throw new Error('APP_SECRET is not defined in environment variables');
 	}
@@ -47,4 +50,28 @@ export const getUserFromCookie = async () => {
 	} catch {
 		return null;
 	}
+};
+
+export const getUserByEmail = async (email: string): Promise<IUser | null> => {
+	await dbConnect();
+	const user = await User.findOne({ email }).select('+password');
+	if (!user) {
+		return null;
+	}
+	return user;
+};
+
+export const generateMagicLink = async (email: string): Promise<string | null> => {
+	await dbConnect(); // Ensure database connection
+
+	if (!email) {
+		return null;
+	}
+
+	// Generate a cryptographically secure, URL-safe token
+	const token = crypto.randomBytes(32).toString('hex'); // 32 bytes = 64 hex characters
+
+	const baseUrl = process.env.NEXTAUTH_URL;
+	const magicLinkUrl = `${baseUrl}/auth/magic-link?token=${token}&email=${encodeURIComponent(email)}`;
+	return magicLinkUrl;
 };

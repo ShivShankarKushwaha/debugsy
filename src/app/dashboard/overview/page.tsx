@@ -15,7 +15,7 @@ const OverView = () => {
 	const teamReports = useSelector(selectAllReports);
 	const projects = useSelector(selectAllProjects);
 	const teamMembers = useSelector(selectTeamMembers).slice(0, 5);
-	const myReports = teamReports.filter((report: any) => report.assignedTo === user?.username);
+	const myReports = teamReports.filter((report: any) => report.assignedTo === user?.name);
 	const managerUpcomingDeadlines = projects.filter((report: { endDate: string }) => new Date(report.endDate).getTime() > Date.now());
 	const userRole = user?.role?.toLowerCase();
 
@@ -266,6 +266,13 @@ const OverView = () => {
 										</tr>
 									))}
 								</tbody>
+								{myReports.length === 0 && (
+									<tr>
+										<td colSpan={6} className="px-6 py-4 text-center text-sm text-gray-500">
+											No tasks assigned.
+										</td>
+									</tr>
+								)}
 							</table>
 						</div>
 						<p className="mt-2 text-xs text-gray-500 md:hidden">Scroll horizontally to see more columns.</p>

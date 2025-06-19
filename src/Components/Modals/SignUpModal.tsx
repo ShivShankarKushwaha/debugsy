@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
 import { switchModal } from '@/redux/slices/AuthModalSlice';
 import { toast } from 'react-toastify';
-import CustomDropdown from '../Animated/CustomDropDown';
 import Image from 'next/image';
+import { GoogleLoginButton } from '../GoogleLogin';
 
 interface SignUpModalProps {
 	open: boolean;
@@ -30,11 +30,11 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 		e.preventDefault();
 		const formData = new FormData(e.target as HTMLFormElement);
 
-		const username = formData.get('username') as string;
+		const name = formData.get('name') as string;
 		const email = formData.get('email') as string;
 		const password = formData.get('password') as string;
 		const confirmPassword = formData.get('confirmPassword') as string;
-		const role = formData.get('role') as string | 'Developer';
+		// const role = formData.get('role') as string | 'Developer';
 		if (password !== confirmPassword) {
 			return toast.error('Passwords do not match. Please try again.');
 		}
@@ -44,17 +44,17 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ username, email, password, confirmPassword, role })
+				body: JSON.stringify({ name, email, password, confirmPassword })
 			});
 
 			if (!response.ok) {
 				const err = await response.json();
-				return toast.error(err?.error);
+				return toast.error(err.message || 'An error occurred during sign up. Please try again later.');
 			}
 
 			const data = await response.json();
 			console.log('Sign up successful:', data);
-			toast.success('Sign up successful! Redirecting to login...');
+			toast.success('Sign up successful! Check your email to verify your account.');
 			onClose();
 			dispatch(switchModal('login'));
 		} catch (error) {
@@ -105,13 +105,13 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 
 						<form className="space-y-6" onSubmit={handleSignUp}>
 							<div>
-								<label htmlFor="username" className="mb-1 block text-sm font-medium text-gray-300">
-									Username
+								<label htmlFor="name" className="mb-1 block text-sm font-medium text-gray-300">
+									Name
 								</label>
 								<input
 									type="text"
-									id="username"
-									name="username"
+									id="name"
+									name="name"
 									autoComplete="off"
 									required
 									className="mt-1 block w-full rounded-lg border border-gray-600 bg-gray-700 px-4 py-2 text-base text-white placeholder-gray-400 shadow-sm transition-all duration-200 ease-in-out focus:border-emerald-500 focus:ring-emerald-500"
@@ -159,7 +159,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 								/>
 							</div>
 
-							<div>
+							{/* <div>
 								<label htmlFor="role" className="mb-1 block text-sm font-medium text-gray-300">
 									Select Role
 								</label>
@@ -180,7 +180,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 									initialRole="Developer"
 								/>
 								<input type="hidden" name="role" value="Developer" />
-							</div>
+							</div> */}
 
 							<div>
 								<button
@@ -202,6 +202,9 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ open, onClose }) => {
 									Sign in
 								</button>
 							</p>
+						</div>
+						<div className="mt-6 flex w-full justify-center border-t border-gray-700 pt-4 text-center">
+							<GoogleLoginButton />
 						</div>
 					</motion.div>
 				</motion.div>

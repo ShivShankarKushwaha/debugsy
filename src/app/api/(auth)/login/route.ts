@@ -27,10 +27,10 @@ export async function POST(req: NextRequest) {
 	}
 
 	// Generate JWT token
-	const token = generateToken({ id: user._id, email: user.email, username: user.username, role: user.role });
+	const token = generateToken({ id: user._id, email: user.email, name: user.name, role: user.role });
 
 	// Set token in HttpOnly cookie
-	const response = NextResponse.json({ user: { id: user._id, email: user.email, username: user.username, role: user.role } }, { status: 200 });
+	const response = NextResponse.json({ user: { id: user._id, email: user.email, name: user.name, role: user.role } }, { status: 200 });
 	response.cookies.set('token', token, {
 		httpOnly: true,
 		secure: process.env.NODE_ENV === 'production',
